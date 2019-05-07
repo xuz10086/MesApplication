@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity"
+    android:orientation="vertical">
+
+    <com.indusfo.spc.utils.TopBar
+        android:id="@+id/main_activity_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorTopBar"
+        app:leftBackground="@drawable/title_shape"
+        app:rightBackground="@drawable/title_shape5"
+        app:titleText="批号对应列表"
+        app:titleTextColor="#FFF"
+        app:titleTextSize="10sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/equipment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:hint="机台号"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:text=""/>
+        <Button
+            android:id="@+id/main_search_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@mipmap/icon_search"/>
+    </LinearLayout>
+
+    <include layout="@layout/activity_main_list_view" />
+</LinearLayout>

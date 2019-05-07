@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProductRightActivity"
+    android:orientation="vertical">
+
+    <com.indusfo.spc.utils.TopBar
+        android:id="@+id/product_right_activity_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorTopBar"
+        app:leftBackground="@drawable/title_shape"
+        app:rightBackground="@drawable/title_shape2"
+        app:thridBackground="@drawable/title_shape4"
+        app:titleText="外观检测"
+        app:titleTextColor="#FFF"
+        app:titleTextSize="10sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <include layout="@layout/activity_product_right_list_view" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom">
+        <Button
+            android:id="@+id/left_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/left_activity_button_shape1"
+            android:text="@string/product_dete"/>
+        <Button
+            android:id="@+id/right_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/left_activity_button_shape2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/product_aspect_dete"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <!-- 引用布局类 -->
+    <com.indusfo.spc.utils.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/aspect_right_item_line"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="vertical"
+                android:id="@+id/test_click">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/right_create_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:padding="5dp"
+                        android:text="@string/right_create_time"
+                        android:textSize="18sp"
+                        android:gravity="start"
+                        android:textColor="#88b676"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <Spinner
+                        android:id="@+id/spinner_arrays"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="3"
+                        android:dropDownWidth="230dp"
+                        android:popupBackground="#66ccff"
+                        android:spinnerMode="dropdown"/>
+
+                    <TextView
+                        android:id="@+id/sum"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:text="样本总数"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/sum_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="5dp"/>
+
+                    <TextView
+                        android:id="@+id/disqualification"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:text="不合格数"
+                        android:gravity="center"
+                        android:textColor="#ca0606"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:id="@+id/disqualification_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:padding="5dp"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/edit_task"
+                android:clickable="true"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="#fac208">
+                <TextView
+                    android:id="@+id/edit_adapter_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="编辑"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/delete_task"
+                android:clickable="true"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="#ff0000">
+                <TextView
+                    android:id="@+id/close_adapter_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="删除"
+                    android:layout_centerInParent="true"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </com.indusfo.spc.utils.SwipeLayout>
+</LinearLayout>

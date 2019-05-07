@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+
+    <cache-path name="cache-path" path="downloadApk" /><!--name自定义   /data/data/com.indusfo.spc/cache/downloadApk下的文件-->
+
+    <!--<external-cache-path name="external-cache-path" path="." />&lt;!&ndash;name自定义  .为SDCard/Android/data/应用包名/cache/&ndash;&gt;
+
+    <external-path name="external-path" path="path" />
+
+    <external-files-path name="external-files-path" path="path" />
+
+    &lt;!&ndash;name自定义  update_file为SDCard/Android/data/应用包名/cache/update/和gettExternalCacheDirectory对应创建的文件夹保持一致&ndash;&gt;
+    <external-cache-path name="external-cache&#45;&#45;custom-path" path="." />-->
+</paths>
