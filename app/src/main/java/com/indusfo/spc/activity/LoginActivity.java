@@ -368,14 +368,14 @@ public class LoginActivity extends BaseActivity {
         String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        // 贺文博同志改成铭文了，没办法加密注掉呗
-//        String md5pwd = Md5Util.md5(password);
+        // 加密
+        String md5pwd = Md5Util.md5(password);
         if (ifValueWasEmpty(username, password)) {
             tip("请输入账号密码");
         }
 
         // 发送网络请求
-        mController.sendAsynMessage(IdiyMessage.LOGIN_ACTION, username, password);
+        mController.sendAsynMessage(IdiyMessage.LOGIN_ACTION, username, md5pwd);
     }
 
 
