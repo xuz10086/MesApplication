@@ -6,7 +6,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -46,6 +48,7 @@ import com.indusfo.spc.R;
 import com.indusfo.spc.bean.RResult;
 import com.indusfo.spc.bean.User;
 import com.indusfo.spc.bean.VersionInfo;
+import com.indusfo.spc.broad.NetWorkStateRecevier;
 import com.indusfo.spc.cons.AppParams;
 import com.indusfo.spc.cons.IdiyMessage;
 import com.indusfo.spc.cons.NetworkConst;
@@ -312,6 +315,23 @@ public class LoginActivity extends BaseActivity {
         mController.sendAsynMessage(IdiyMessage.GET_USER_FROM_DB, 0);
 
 //        mController.sendAsynMessage(IdiyMessage.GET_URL_FROM_LOCAL);
+
+        // 进入登陆界面，校验是否有新版本
+        UpdateVersionUtil.checkVersion(LoginActivity.this, new UpdateVersionUtil.UpdateListener() {
+
+                    @Override
+                    public void onUpdateReturned(int updateStatus, VersionInfo versionInfo) {
+                        //判断回调过来的版本检测状态
+                        switch (updateStatus) {
+                            case UpdateStatus.YES:
+                                //弹出更新提示
+                                UpdateVersionUtil.showDialog(LoginActivity.this, versionInfo);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
 
         // 更新App
         updateApp.setOnClickListener(new View.OnClickListener() {

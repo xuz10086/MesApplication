@@ -1,6 +1,8 @@
 package com.indusfo.spc.activity;
 
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.indusfo.spc.broad.NetWorkStateRecevier;
 import com.indusfo.spc.controller.BaseController;
 import com.indusfo.spc.listener.IModeChangeListener;
 
@@ -22,6 +25,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IModeCha
         }
     };
     private static Toast toast;
+
+    NetWorkStateRecevier netWorkStateRecevier;
 
     protected void handlerMessage(Message msg) {
         // default Empty implementn
@@ -76,4 +81,36 @@ public abstract class BaseActivity extends AppCompatActivity implements IModeCha
         mHandler.obtainMessage(action, values[0]).sendToTarget();
     }
 
+    /**
+     * 注册广播（Wi-Fi状态）
+     *
+     * @author xuz
+     * @date 2019/6/17 11:08 AM
+     * @param []
+     * @return void
+     */
+    @Override
+    protected void onResume() {
+        if (null == netWorkStateRecevier) {
+            netWorkStateRecevier = new NetWorkStateRecevier(this);
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStateRecevier, filter);
+        super.onResume();
+    }
+
+    /**
+     * 注销广播（Wi-Fi状态）
+     *
+     * @author xuz
+     * @date 2019/6/17 11:08 AM
+     * @param []
+     * @return void
+     */
+    @Override
+    protected void onPause() {
+        unregisterReceiver(netWorkStateRecevier);
+        super.onPause();
+    }
 }
