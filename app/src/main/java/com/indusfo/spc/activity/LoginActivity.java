@@ -184,6 +184,7 @@ public class LoginActivity extends BaseActivity {
 
         } else{
             mPasswordView.setError("用户名或密码错误！");
+            tip(rResult.getMsg());
         }
 
         if ("erro url".equals(rResult.getCode())) {

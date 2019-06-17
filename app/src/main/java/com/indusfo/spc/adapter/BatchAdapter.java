@@ -78,7 +78,6 @@ public class BatchAdapter extends ArrayAdapter<Batch> {
             /* 否则，直接对converView进行重用 */
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         viewHolder.theFirst.setText("机台号:" + batch.getVcEquipment() + "      " + batch.getVcModel());
 //        viewHolder.theSecond.setText("批号:" + batch.getVcBatchCode() + "  状态:" + batch.getlBatchStateName());
 //        viewHolder.theThrid.setText("操作工:" + batch.getVcUserName() + "  生产完工比例:" + batch.getProportion());

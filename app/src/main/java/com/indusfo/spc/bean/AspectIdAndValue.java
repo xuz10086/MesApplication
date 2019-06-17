@@ -1,5 +1,7 @@
 package com.indusfo.spc.bean;
 
+import java.io.Serializable;
+
 /**
  * Spinner条目的实体类
  * 重写toString方法，默认显示条目toString
@@ -9,7 +11,7 @@ package com.indusfo.spc.bean;
  * @param
  * @return
  */
-public class AspectIdAndValue {
+public class AspectIdAndValue implements Serializable {
 
     private Integer id;
     private String value;

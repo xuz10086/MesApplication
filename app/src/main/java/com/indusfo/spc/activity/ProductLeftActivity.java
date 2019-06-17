@@ -91,7 +91,7 @@ public class ProductLeftActivity extends BaseActivity {
     private CustomDialog customDialog;
     private int countProgress = 0;
 
-    private static int mounts = 1;
+    private static Integer mounts = 1;
 
     @Override
     protected void handlerMessage(Message msg) {
@@ -176,7 +176,9 @@ public class ProductLeftActivity extends BaseActivity {
             // 用变量存放检测值id
             lDeteId = productDeteD.getlDeteId();
             // 存放每组样本数
-            mounts = productDeteD.getlSwatch();
+            if (null != productDeteD.getlSwatch()) {
+                mounts = productDeteD.getlSwatch();
+            }
 
             List<ProcessTargetD> processTargetDList = productDeteD.getProcessTargetDList();
             List<ProductDeteValueD> productDeteValueDList = null;
@@ -229,11 +231,12 @@ public class ProductLeftActivity extends BaseActivity {
 
     private void handleToRight(Message msg) {
         // 展示右边的界面
-        Intent intent = new Intent(ProductLeftActivity.this, ProductRightActivity.class);
+        Intent intent = new Intent(ProductLeftActivity.this, ProductRight2Activity.class);
         intent.putExtra("vcBatchCode", vcBatchCode);
         intent.putExtra("lDeteId", lDeteId);
         intent.putExtra("lEquipment", lEquipment);
         intent.putExtra("vcEquipment", vcEquipment);
+        intent.putExtra("lDeteId", lDeteId);
         ProductLeftActivity.this.startActivity(intent);
 
         finish();
@@ -286,10 +289,21 @@ public class ProductLeftActivity extends BaseActivity {
             } catch (NumberFormatException e) {
                 ActivityUtils.showDialog(ProductLeftActivity.this, "连接失败", "仪器连接异常，端口格式错误");
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             // 弹框,并建立Socket连接
             if (null != instrumentD.getlInsTypeName()) {
                 customDialog.setStr(instrumentD.getlInsTypeName()+"连接中");
+            }
+
+            if (null==ip) {
+                tip("仪器的IP设置为空");
+                return;
+            }
+            if (null==port) {
+                tip("仪器的端口号设置为空");
+                return;
             }
             showMyDialog();
 
@@ -377,10 +391,12 @@ public class ProductLeftActivity extends BaseActivity {
                 tip("检测单为空！");
                 return;
             }
-            // 用变量存放检测值id
-            lDeteId = productDeteD.getlDeteId();
+            // 用变量存放检测值id(现在的lDeteId直接由主界面选择条目后传过来)
+//            lDeteId = productDeteD.getlDeteId();
             // 存放每组样本数
-            mounts = productDeteD.getlSwatch();
+            if (null!=productDeteD.getlSwatch()) {
+                mounts = productDeteD.getlSwatch();
+            }
 
             List<ProcessTargetD> processTargetDList = productDeteD.getProcessTargetDList();
             List<ProductDeteValueD> productDeteValueDList = null;
@@ -475,9 +491,11 @@ public class ProductLeftActivity extends BaseActivity {
                 return;
             }
             // 用变量存放检测值id
-            lDeteId = productDeteD.getlDeteId();
+//            lDeteId = productDeteD.getlDeteId();
             // 存放每组样本数
-            mounts = productDeteD.getlSwatch();
+            if (null!=productDeteD.getlSwatch()) {
+                mounts = productDeteD.getlSwatch();
+            }
 
             List<ProcessTargetD> processTargetDList = productDeteD.getProcessTargetDList();
 
@@ -581,7 +599,6 @@ public class ProductLeftActivity extends BaseActivity {
         gridView.setStretchMode(GridView.NO_STRETCH);
         gridView.setNumColumns(size); // 设置列数量=列表集合数
 
-
         GridViewAdapter adapter = new GridViewAdapter(this, R.layout.activity_product_left_grid_item, mController, processTargetDList, hashMapForBatchEquipment, mounts);
         gridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -621,18 +638,22 @@ public class ProductLeftActivity extends BaseActivity {
         vcBatchCode = intent.getStringExtra("vcBatchCode");
         lEquipment = intent.getIntExtra("lEquipment", -1);
         vcEquipment = intent.getStringExtra("vcEquipment");
+        lDeteId = intent.getIntExtra("lDeteId", -1);
 
         // 给hashMap设置值
         hashMapForBatchEquipment = new HashMap<String, String>();
         hashMapForBatchEquipment.put("vcBatchCode", vcBatchCode);
         hashMapForBatchEquipment.put("lEquipment", lEquipment+"");
         hashMapForBatchEquipment.put("vcEquipment", vcEquipment);
+        hashMapForBatchEquipment.put("lDeteId", lDeteId+"");
 
         timer = new Timer();
 
-        if (!vcBatchCode.isEmpty()) {
+        if (null!=lDeteId) {
             // 发送网络请求，查询检测项目列表
-            mController.sendAsynMessage(IdiyMessage.QUERY_TARGET, vcBatchCode);
+            mController.sendAsynMessage(IdiyMessage.QUERY_TARGET, lDeteId+"");
+        } else {
+            tip("不存在该检测单");
         }
 
         topBar.setThrirdButtonVisibility(false);

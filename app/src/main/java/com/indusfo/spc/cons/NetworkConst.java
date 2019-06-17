@@ -30,7 +30,7 @@ public class NetworkConst {
     public static final String SAVE_DETE_VALUE_URL = BASE_URL + "/detection/productDeteValue/updateProductDeteValue";
 
     // 查询外观检测项目
-    public static final String QUERY_ASPECT_ITEM_URL = BASE_URL + "/detePro/queryDetePro";
+    public static final String QUERY_ASPECT_ITEM_URL = BASE_URL + "/detePro/queryDeteProOnlyAspect";
 
     // 查询外观检测值
     public static final String QUERY_ASPECT_VALUE_URL = BASE_URL + "/detection/productDeteAspect/queryProductDeteAspect";
@@ -42,7 +42,8 @@ public class NetworkConst {
     public static final String GET_TCP_PARAMS_URL = BASE_URL + "/detection/Instrument/queryInstrument";
 
     // 产品检测单判定
-    public static final String SET_DETE_RESULT_VALUE_URL = BASE_URL + "/detection/productDete/decide";
+//    public static final String SET_DETE_RESULT_VALUE_URL = BASE_URL + "/detection/productDete/decide";
+    public static final String SET_DETE_RESULT_VALUE_URL = BASE_URL + "/productDete/updateProductResult";
 
     // App在线升级
     public static final String UPDATA_VERSION_REQ = BASE_URL + "/pda/scanApp/queryScanApp";

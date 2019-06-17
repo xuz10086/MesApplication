@@ -21,7 +21,7 @@ public class ProductRightController extends BaseController {
         RResult rResult;
         switch (action) {
             case IdiyMessage.QUERY_ASPECT_ITEM:
-                rResult = queryAspectItem(url + NetworkConst.QUERY_ASPECT_ITEM_URL);
+                rResult = queryAspectItem(url + NetworkConst.QUERY_ASPECT_ITEM_URL, (String) values[0]);
                 mListener.onModeChange(IdiyMessage.QUERY_ASPECT_ITEM_RESULT, rResult);
                 break;
             case IdiyMessage.QUERY_ASPECT_VALUE:
@@ -79,12 +79,13 @@ public class ProductRightController extends BaseController {
      * @param [url]
      * @return com.indusfo.spc.bean.RResult
      */
-    private RResult queryAspectItem(String url) {
+    private RResult queryAspectItem(String url, String lDeteId) {
         HashMap<String,String> params = new HashMap<String, String>();
         params.put("lInsType", "99");
         params.put("lDataState", "1");
         params.put("pagesize", "9999");
         params.put("pageindex", "1");
+        params.put("lDeteId", lDeteId);
         String json = NetworkUtil.doPostSetCookie(url, params, cookie);
         return JSON.parseObject(json, RResult.class);
 

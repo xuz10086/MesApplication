@@ -24,6 +24,10 @@ public class ProductDeteAspectD implements Serializable {
     private String vcRemark; //说明
     private Integer lDataState; //状态
     private String percentage; //不合格比例
+    // 检测结果
+    private Integer lResult;
+    // 检测结果（翻译）
+    private String vcResult;
 
     public Integer getlDeteId() {
         return lDeteId;
@@ -113,6 +117,22 @@ public class ProductDeteAspectD implements Serializable {
         this.percentage = percentage;
     }
 
+    public Integer getlResult() {
+        return lResult;
+    }
+
+    public void setlResult(Integer lResult) {
+        this.lResult = lResult;
+    }
+
+    public String getVcResult() {
+        return vcResult;
+    }
+
+    public void setVcResult(String vcResult) {
+        this.vcResult = vcResult;
+    }
+
     @Override
     public String toString() {
         return "ProductDeteAspectD{" +
@@ -127,6 +147,8 @@ public class ProductDeteAspectD implements Serializable {
                 ", vcRemark='" + vcRemark + '\'' +
                 ", lDataState=" + lDataState +
                 ", percentage='" + percentage + '\'' +
+                ", lResult=" + lResult +
+                ", vcResult='" + vcResult + '\'' +
                 '}';
     }
 }

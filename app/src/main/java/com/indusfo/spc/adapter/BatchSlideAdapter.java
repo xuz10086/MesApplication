@@ -16,6 +16,7 @@ import com.indusfo.spc.activity.ProductLeftActivity;
 import com.indusfo.spc.bean.Batch;
 import com.indusfo.spc.cons.IdiyMessage;
 import com.indusfo.spc.controller.MainController;
+import com.indusfo.spc.utils.ActivityUtils;
 import com.indusfo.spc.utils.DialogUtils;
 import com.indusfo.spc.utils.StringUtils;
 import com.roamer.slidelistview.SlideBaseAdapter;
@@ -88,7 +89,11 @@ public class BatchSlideAdapter extends SlideBaseAdapter {
             viewHolder = (BatchSlideAdapter.ViewHolder) convertView.getTag();
         }
 
-        viewHolder.theFirst.setText("机台号:" + batch.getVcEquipment() + "      " + batch.getVcModel());
+        String vcEquipment = batch.getVcEquipment();
+        if (null==vcEquipment) {
+            vcEquipment = "  无  ";
+        }
+        viewHolder.theFirst.setText("机台号:" + vcEquipment + "      " + batch.getVcModel());
 //        viewHolder.theSecond.setText("批号:" + batch.getVcBatchCode() + "  状态:" + batch.getlBatchStateName());
 //        viewHolder.theThrid.setText("操作工:" + batch.getVcUserName() + "  生产完工比例:" + batch.getProportion());
         viewHolder.status.setText(batch.getlBatchStateName());
@@ -134,7 +139,13 @@ public class BatchSlideAdapter extends SlideBaseAdapter {
 
                     @Override
                     public void rightButtonMethod() {
-                        mainController.sendAsynMessage(IdiyMessage.SET_DETE_STATUE, batch.getVcBatchCode(), "1");
+//                        mainController.sendAsynMessage(IdiyMessage.SET_DETE_STATUE, batch.getVcBatchCode(), "1");
+                        Integer deteId = batch.getlDeteId();
+                        if (deteId == null) {
+                            ActivityUtils.showDialog(context, "检测单判定错误", "没有检测单ID");
+                            return;
+                        }
+                        mainController.sendAsynMessage(IdiyMessage.SET_DETE_STATUE, deteId+"", "1");
 
                         // 界面删除这项
                         batchList.remove(position);
@@ -157,7 +168,13 @@ public class BatchSlideAdapter extends SlideBaseAdapter {
 
                     @Override
                     public void rightButtonMethod() {
-                        mainController.sendAsynMessage(IdiyMessage.SET_DETE_STATUE, batch.getVcBatchCode(), "2");
+                        Integer deteId = batch.getlDeteId();
+                        if (deteId == null) {
+                            ActivityUtils.showDialog(context, "检测单判定错误", "没有检测单ID");
+                            return;
+                        }
+//                        mainController.sendAsynMessage(IdiyMessage.SET_DETE_STATUE, batch.getVcBatchCode(), "2");
+                        mainController.sendAsynMessage(IdiyMessage.SET_DETE_STATUE, deteId+"", "2");
                         // 界面删除这项
                         batchList.remove(position);
                         notifyDataSetChanged();
@@ -184,6 +201,7 @@ public class BatchSlideAdapter extends SlideBaseAdapter {
         intent.putExtra("lEquipment", batch.getlEquipment());
         intent.putExtra("vcEquipment", batch.getVcEquipment());
         intent.putExtra("vcBatchCode", batch.getVcBatchCode());
+        intent.putExtra("lDeteId", batch.getlDeteId());
         context.startActivity(intent);
     }
 

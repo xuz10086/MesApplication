@@ -1,6 +1,5 @@
 package com.indusfo.spc.activity;
 
-import android.content.Intent;
 import android.os.Message;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,7 +17,6 @@ import android.widget.Spinner;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.indusfo.spc.R;
-import com.indusfo.spc.adapter.BatchAdapter;
 import com.indusfo.spc.adapter.BatchSlideAdapter;
 import com.indusfo.spc.bean.Batch;
 import com.indusfo.spc.bean.Pro;
@@ -28,8 +26,6 @@ import com.indusfo.spc.bean.SpinnerIdAndValue;
 import com.indusfo.spc.cons.AppParams;
 import com.indusfo.spc.cons.IdiyMessage;
 import com.indusfo.spc.controller.MainController;
-import com.indusfo.spc.utils.ActivityUtils;
-import com.indusfo.spc.utils.StringUtils;
 import com.indusfo.spc.utils.TopBar;
 
 import java.util.ArrayList;
@@ -172,7 +168,7 @@ public class MainActivity extends BaseActivity {
 
     private void handleSetDeteStatue(Message msg) {
         RResult rResult = (RResult) msg.obj;
-        if (null==rResult || null==rResult.getData()) {
+        if (null==rResult) {
             tip("网络连接错误");
             return;
         }
@@ -407,7 +403,7 @@ public class MainActivity extends BaseActivity {
      */
     private void queryBatch(int action, String vcEquipment, Integer lProId, Integer pagesize, Integer pageindex) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("vcEquipment", vcEquipment);
+        jsonObject.put("dim", vcEquipment);
         jsonObject.put("lProId", lProId);
         jsonObject.put("pagesize", pagesize);
         jsonObject.put("pageindex", pageindex);

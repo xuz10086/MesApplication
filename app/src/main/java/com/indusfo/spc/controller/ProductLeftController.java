@@ -94,10 +94,10 @@ public class ProductLeftController extends BaseController {
      * @param [queryDeteValueUrl, value]
      * @return com.indusfo.spc.bean.RResult
      */
-    private RResult queryDeteValue(String url, Integer lProTarget, String vcBatchCode) {
+    private RResult queryDeteValue(String url, Integer lProTarget, String lDeteId) {
         HashMap<String,String> params = new HashMap<String, String>();
         params.put("lProTarget", lProTarget+"");
-        params.put("vcBatchCode", vcBatchCode);
+        params.put("lDeteId", lDeteId);
         String json = NetworkUtil.doPostSetCookie(url, params, cookie);
         return JSON.parseObject(json, RResult.class);
     }
@@ -110,9 +110,9 @@ public class ProductLeftController extends BaseController {
      * @param [url, lProFlow]
      * @return com.indusfo.spc.bean.RResult
      */
-    private RResult queryTarget(String url, String vcBatchCode) {
+    private RResult queryTarget(String url, String lDeteId) {
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("vcBatchCode", vcBatchCode);
+        params.put("lDeteId", lDeteId);
 
         String json = NetworkUtil.doPostSetCookie(url, params, cookie);
         return JSON.parseObject(json, RResult.class);

@@ -29,6 +29,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
     private String vcBatchCode;
     private String lEquipment;
     private String vcEquipment;
+    private String lDeteId;
     private int mounts;
 
     // 根据id来限制不能重复点击
@@ -44,6 +45,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
         this.vcBatchCode = hashMap.get("vcBatchCode");
         this.lEquipment = hashMap.get("lEquipment");
         this.vcEquipment = hashMap.get("vcEquipment");
+        this.lDeteId = hashMap.get("lDeteId");
         this.mounts = _mounts;
     }
 
@@ -101,7 +103,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
                 boolean weatherSave = ProductLeftActivity.weatherSave;
                 if (weatherSave) {
                     final int lProTarget = dataSet.getInt("lProTarget", 0);
-                    final int lDeteId = dataSet.getInt("lDeteId", 0);
+//                    final int lDeteId = dataSet.getInt("lDeteId", 0);
                     final String timeValues = dataSet.getString("timeValues", "");
                     final String deteValues = dataSet.getString("deteValues", "");
                     // 弹框
@@ -122,7 +124,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
 //                    if (id != processTargetD.getlProTarget()) {
                         id = processTargetD.getlProTarget();
                         // 展示其他检测项目的值
-                        productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), vcBatchCode);
+                        productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), lDeteId);
                         ProductLeftActivity.weatherSave = false;
 //                    }
 
@@ -140,7 +142,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
      * @param [lProTarget, lDeteId, parent]
      * @return void
      */
-    private void alertDialog(final int lProTarget, final int lDeteId,
+    private void alertDialog(final int lProTarget, final String lDeteId,
                              final ViewGroup parent, final String timeValues, final String deteValues, final ProcessTargetD processTargetD) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(context)
@@ -148,7 +150,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (lDeteId == -1) {
+                        if (null==lDeteId || lDeteId.isEmpty()) {
                             Toast.makeText(context, "检测单不存在", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -163,7 +165,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
 //                        if (id != processTargetD.getlProTarget()) {
                             id = processTargetD.getlProTarget();
                             // 展示其他检测项目的值
-                            productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), vcBatchCode);
+                            productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), lDeteId);
 //                        }
                         ProductLeftActivity.weatherSave = false;
                     }
@@ -174,7 +176,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
 //                        if (id != processTargetD.getlProTarget()) {
                             id = processTargetD.getlProTarget();
                             // 展示其他检测项目的值
-                            productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), vcBatchCode);
+                            productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), lDeteId);
 //                        }
                         ProductLeftActivity.weatherSave = false;
                     }
@@ -205,7 +207,7 @@ public class GridViewAdapter extends ArrayAdapter<ProcessTargetD> {
 //                        if (id != processTargetD.getlProTarget()) {
                             id = processTargetD.getlProTarget();
                             // 展示其他检测项目的值
-                            productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), vcBatchCode);
+                            productLeftController.sendAsynMessage(IdiyMessage.QUERY_TARGET_BY_ID, processTargetD.getlProTarget(), lDeteId);
 //                        }
                         ProductLeftActivity.weatherSave = false;
                     }

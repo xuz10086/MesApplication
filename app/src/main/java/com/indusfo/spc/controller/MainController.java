@@ -68,10 +68,10 @@ public class MainController extends BaseController {
      * @param [s, value, value1]
      * @return com.indusfo.spc.bean.RResult
      */
-    private RResult setDeteResultValue(String url, String vcBatchCode, String lResult) {
+    private RResult setDeteResultValue(String url, String lDeteId, String lResult) {
 
         HashMap<String,String> hashMap = new HashMap<String, String>();
-        hashMap.put("vcBatchCode", vcBatchCode);
+        hashMap.put("lDeteId", lDeteId);
         hashMap.put("lResult", lResult);
 
         String json = NetworkUtil.doPostSetCookie(url, hashMap, cookie);
