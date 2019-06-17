@@ -83,4 +83,8 @@ public class IdiyMessage {
     public static final int REFRESH_DETE_VALUE_RESULT = 40;
     public static final int SAVE_DETE_VALUE_AND_REFRESH = 41;
     public static final int SAVE_DETE_VALUE_AND_REFRESH_RESULT = 42;
+
+    // 登陆用户对应工序查询
+    public static final int QUERY_PRO_BY_LOGIN_USER = 43;
+    public static final int QUERY_PRO_BY_LOGIN_USER_RESULT = 44;
 }

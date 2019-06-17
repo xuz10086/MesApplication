@@ -46,4 +46,7 @@ public class NetworkConst {
 
     // App在线升级
     public static final String UPDATA_VERSION_REQ = BASE_URL + "/pda/scanApp/queryScanApp";
+
+    // 查询登陆用户对应工序
+    public static final String QUERY_RRO_BY_LOGIN_USER = BASE_URL + "/role/selectRolePro";
 }

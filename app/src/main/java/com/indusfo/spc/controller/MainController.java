@@ -36,10 +36,29 @@ public class MainController extends BaseController {
                 rResult = setDeteResultValue(url + NetworkConst.SET_DETE_RESULT_VALUE_URL, (String) values[0], (String) values[1]);
                 mListener.onModeChange(IdiyMessage.SET_DETE_STATUE_RESULT, rResult);
                 break;
+            case IdiyMessage.QUERY_PRO_BY_LOGIN_USER:
+                rResult = queryProByLoginUser(url+NetworkConst.QUERY_RRO_BY_LOGIN_USER);
+                mListener.onModeChange(IdiyMessage.QUERY_PRO_BY_LOGIN_USER_RESULT, rResult);
+                break;
             default:
                 break;
         }
     }
+
+    /**
+     * 查询登陆用户对应工序
+     *  
+     * @author xuz
+     * @date 2019/6/5 2:53 PM
+     * @param [url]
+     * @return com.indusfo.spc.bean.RResult
+     */
+    private RResult queryProByLoginUser(String url) {
+        HashMap<String,String> hashMap = new HashMap<String, String>();
+        String json = NetworkUtil.doPostSetCookie(url, hashMap, cookie);
+        return JSON.parseObject(json, RResult.class);
+    }
+
 
     /**
      * 产品检测单判定

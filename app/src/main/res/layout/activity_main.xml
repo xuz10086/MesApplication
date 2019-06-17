@@ -26,6 +26,21 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <Spinner
+            android:id="@+id/pro"
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center"
+            android:textColor="@color/textColor2"
+            android:textSize="18sp"
+            android:dropDownWidth="180dp"
+            android:popupBackground="@color/white"
+            android:spinnerMode="dropdown"
+            />
+
         <EditText
             android:id="@+id/equipment_text"
             android:layout_width="wrap_content"

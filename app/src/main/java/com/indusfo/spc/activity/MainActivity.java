@@ -8,11 +8,12 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,7 +21,10 @@ import com.indusfo.spc.R;
 import com.indusfo.spc.adapter.BatchAdapter;
 import com.indusfo.spc.adapter.BatchSlideAdapter;
 import com.indusfo.spc.bean.Batch;
+import com.indusfo.spc.bean.Pro;
 import com.indusfo.spc.bean.RResult;
+import com.indusfo.spc.bean.RolePro;
+import com.indusfo.spc.bean.SpinnerIdAndValue;
 import com.indusfo.spc.cons.AppParams;
 import com.indusfo.spc.cons.IdiyMessage;
 import com.indusfo.spc.controller.MainController;
@@ -48,6 +52,8 @@ public class MainActivity extends BaseActivity {
     private List<Batch> batchList;
     private TopBar topBar;
     private Button mainSearchButton;
+    private Spinner proSpinner;
+
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
 
@@ -61,6 +67,9 @@ public class MainActivity extends BaseActivity {
     private boolean loadfinish = true;
     private View progressBar;
 
+    // 工序ID
+    private Integer lProId;
+
     @Override
     protected void handlerMessage(Message msg) {
         switch (msg.what) {
@@ -73,9 +82,92 @@ public class MainActivity extends BaseActivity {
             case IdiyMessage.SET_DETE_STATUE_RESULT:
                 handleSetDeteStatue(msg);
                 break;
+            case IdiyMessage.QUERY_PRO_BY_LOGIN_USER_RESULT:
+                handleQueryPro(msg);
+                break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 查询登陆用户对应工序
+     *
+     * @author xuz
+     * @date 2019/6/5 2:59 PM
+     * @param [msg]
+     * @return void
+     */
+    private void handleQueryPro(Message msg) {
+        RResult rResult = (RResult) msg.obj;
+        if (null==rResult) {
+            tip("网络连接错误");
+            return;
+        }
+
+        if ("200".equals(rResult.getCode())) {
+            String data = rResult.getData();
+            if (null != data && !data.isEmpty()) {
+                RolePro rolePro = JSON.parseObject(data, RolePro.class);
+                if (rolePro!=null) {
+                    List<Pro> proList = rolePro.getProList();
+                    if (null!=proList) {
+                        SpinnerView(proList);
+                    }
+
+                }
+
+            }
+        }
+
+        if(!rResult.isOk() || rResult.getData().isEmpty()) {
+            tip(rResult.getMsg());
+        }
+    }
+
+    /**
+     * 工序Spinner，Spinner点击事件
+     *
+     * @author xuz
+     * @date 2019/6/5 3:09 PM
+     * @param [proList]
+     * @return void
+     */
+    private void SpinnerView(List<Pro> proList) {
+        // 封装Spinner列表集合
+        final List<SpinnerIdAndValue> spinnerIdAndValueList = new ArrayList<>();
+        for (Pro pro : proList) {
+            Integer lProId = pro.getlProId();
+            String vcProName = pro.getVcProName();
+
+            SpinnerIdAndValue spinnerIdAndValue = new SpinnerIdAndValue(lProId, vcProName);
+            spinnerIdAndValueList.add(spinnerIdAndValue);
+        }
+
+        ArrayAdapter<SpinnerIdAndValue> adapter =
+                new ArrayAdapter<SpinnerIdAndValue>(this, android.R.layout.simple_spinner_item, spinnerIdAndValueList);
+        // 设置下拉列表风格
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        // 将adapter添加到spinner中
+        proSpinner.setAdapter(adapter);
+        // 设置默认值
+        proSpinner.setVisibility(View.VISIBLE);
+
+        proSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 获取选中的工序ID
+                lProId = spinnerIdAndValueList.get(position).getId();
+                equipmentText.setText("");
+                // 重新查询该工序下的检测单
+                queryBatch(IdiyMessage.QUERY_BATCH,"", lProId, number, 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void handleSetDeteStatue(Message msg) {
@@ -123,7 +215,11 @@ public class MainActivity extends BaseActivity {
         }
 
         if(!rResult.isOk() || rResult.getData().isEmpty()) {
-            tip(rResult.getMsg());
+            if (!rResult.getMsg().contains("没有查询到机台")) {
+                tip(rResult.getMsg());
+            }
+            // 移除改视图
+            listView.removeFooterView(progressBar);
         }
     }
 
@@ -151,7 +247,12 @@ public class MainActivity extends BaseActivity {
         }
 
         if(!rResult.isOk() || rResult.getData().isEmpty()) {
-            tip(rResult.getMsg());
+            if (!rResult.getMsg().contains("没有查询到机台")) {
+                tip(rResult.getMsg());
+            }
+            // 移除改视图
+            listView.removeFooterView(progressBar);
+
             batchList.clear();
             if (null != batchAdapter) {
                 batchAdapter.notifyDataSetChanged();
@@ -177,13 +278,17 @@ public class MainActivity extends BaseActivity {
         listView = findViewById(R.id.batch_list_view);
         topBar = findViewById(R.id.main_activity_topbar);
         mainSearchButton = findViewById(R.id.main_search_button);
+        proSpinner = findViewById(R.id.pro);
 
         // listview中脚跟的视图
         progressBar = this.getLayoutInflater().inflate(R.layout.progress, null);
 
         batchList = new ArrayList<Batch>();
 
-        queryBatch(IdiyMessage.QUERY_BATCH,"", 1, number, 1);
+        // 查询登陆用户的工序
+        mController.sendAsynMessage(IdiyMessage.QUERY_PRO_BY_LOGIN_USER);
+
+//        queryBatch(IdiyMessage.QUERY_BATCH,"", 1, number, 1);
 //        mController.sendAsynMessage(IdiyMessage.QUERY_BATCH, number, 1, "");
 
         topBar.setThrirdButtonVisibility(false);
@@ -201,7 +306,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void OnRightButtonClick() {
                 // 刷新
-                queryBatch(IdiyMessage.QUERY_BATCH,"", 1, number, 1);
+                queryBatch(IdiyMessage.QUERY_BATCH,"", lProId, number, 1);
                 equipmentText.setText("");
             }
 
@@ -250,7 +355,7 @@ public class MainActivity extends BaseActivity {
                             // 获取文本框模糊字段查询
                             String vcEquipment = equipmentText.getText().toString();
                             // 获取当前页数据
-                            queryBatch(IdiyMessage.QUERY_BATCH_NEXT_PAGE,vcEquipment, 1, number, nextpage);
+                            queryBatch(IdiyMessage.QUERY_BATCH_NEXT_PAGE,vcEquipment, lProId, number, nextpage);
 //                            mController.sendAsynMessage(IdiyMessage.QUERY_BATCH_NEXT_PAGE, number, nextpage, vcEquipment);
                             //还可以通过这样的方式实现
                             //AsyncTaskLoadData asynctask=new AsyncTaskLoadData(totalItemCount);
@@ -280,9 +385,13 @@ public class MainActivity extends BaseActivity {
         // 监听文本变化，如果有换行符则新增一行数据
         @Override
         public void afterTextChanged(Editable editable) {
-            final String equipmentStr = equipmentText.getText().toString();
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - exitTime > 1.5) {
+                final String equipmentStr = equipmentText.getText().toString();
 
-            queryBatch(IdiyMessage.QUERY_BATCH, equipmentStr, 1, number, 1);
+                queryBatch(IdiyMessage.QUERY_BATCH, equipmentStr, lProId, number, 1);
+            }
+            exitTime = currentTime;
 //            mController.sendAsynMessage(IdiyMessage.QUERY_BATCH, number, 1, equipmentStr);
 
         }

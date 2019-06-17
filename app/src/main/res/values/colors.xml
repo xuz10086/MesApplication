@@ -11,6 +11,19 @@
     <color name="transparent">#00000000</color>
     <color name="transparent_bg">#22000000</color>
     <color name="colorTopBar">#0faaec</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="tableItemColor">#bfe5f5</color>
+
+    <color name="textColor1">#9d9e9f</color>
+    <color name="textColor2">#FF306095</color>
+    <color name="textColor3">#1fec41</color>
+    <color name="textColor4">#f13a16</color>
+
+    <!--上限值颜色-->
+    <color name="leftHeightColor">#d40b0b</color>
+    <!--下限值颜色-->
+    <color name="leftBottomColor">#a36d0b</color>
+    <!--中心值颜色-->
+    <color name="leftCenterColor">#0a0909</color>
 </resources>

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -134,8 +135,14 @@ public class ProductLeftActivity extends BaseActivity {
 
         if ("200".equals(rResult.getCode())) {
             tip("保存成功");
-            // 刷新检测值数据
-            mController.sendAsynMessage(IdiyMessage.REFRESH_DETE_VALUE, lProTarget, vcBatchCode);
+
+            // 保存成功后，清空列表数据
+            int childCount = tableLayout.getChildCount();
+            for (int i=1; i<childCount; childCount--) {
+                tableLayout.removeViewAt(i);
+            }
+            // 刷新检测值数据(不再刷新了)
+//            mController.sendAsynMessage(IdiyMessage.REFRESH_DETE_VALUE, lProTarget, vcBatchCode);
         }
         if (!rResult.isOk() || !"200".equals(rResult.getCode())) {
             tip(rResult.getMsg());
@@ -410,12 +417,13 @@ public class ProductLeftActivity extends BaseActivity {
                 tip(rResult.getMsg());
             }
 
-            if (productDeteValueDList != null && productDeteValueDList.size() != 0) {
+            // 展示历史数据，现在不需要了
+            /*if (productDeteValueDList != null && productDeteValueDList.size() != 0) {
                 for (Iterator<ProductDeteValueD> iterator = productDeteValueDList.iterator(); iterator.hasNext(); ) {
                     ProductDeteValueD productDeteValueD = iterator.next();
                     createRow(productDeteValueD);
                 }
-            }
+            }*/
         }
 
         // 关闭定时任务
@@ -492,12 +500,13 @@ public class ProductLeftActivity extends BaseActivity {
                 tip("该检测单还未添加检测项目！");
             }
 
-            if (productDeteValueDList != null && productDeteValueDList.size() != 0) {
+            // 展示历史数据，现在不需要了
+            /*if (productDeteValueDList != null && productDeteValueDList.size() != 0) {
                 for (Iterator<ProductDeteValueD> iterator = productDeteValueDList.iterator(); iterator.hasNext(); ) {
                     ProductDeteValueD productDeteValueD = iterator.next();
                     createRow(productDeteValueD);
                 }
-            }
+            }*/
 
         }
 
@@ -866,15 +875,45 @@ public class ProductLeftActivity extends BaseActivity {
     private void addRow(String deteValueStr) {
 
         LayoutInflater inflater = LayoutInflater.from(ProductLeftActivity.this);
-        TextView tv1 = inflater.inflate(R.layout.product_left_textview, null).findViewById(R.id.textview3);
-        TextView tv2 = inflater.inflate(R.layout.product_left_textview, null).findViewById(R.id.textview3);
-        TextView tv3 = inflater.inflate(R.layout.product_left_textview, null).findViewById(R.id.textview3);
+        final TextView tv1 = inflater.inflate(R.layout.product_left_textview, null).findViewById(R.id.textview3);
+        final TextView tv2 = inflater.inflate(R.layout.product_left_textview, null).findViewById(R.id.textview3);
+        final TextView tv3 = inflater.inflate(R.layout.product_left_textview, null).findViewById(R.id.textview3);
         tv1.setTextSize(20);
         tv2.setTextSize(20);
         tv3.setTextSize(20);
 
         // 获取行
         final TableRow row = getTableRow();
+
+        // 为行这只长按事件
+        row.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    // 按下，变色
+                    case MotionEvent.ACTION_DOWN:
+                        tv1.setBackgroundColor(getResources().getColor(R.color.tableItemColor));
+                        tv2.setBackgroundColor(getResources().getColor(R.color.tableItemColor));
+                        tv3.setBackgroundColor(getResources().getColor(R.color.tableItemColor));
+                        break;
+                    // 抬起还原
+                    case MotionEvent.ACTION_UP:
+                        tv1.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        tv2.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        tv3.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        break;
+                    // 移出边界
+                    case MotionEvent.ACTION_CANCEL:
+                        tv1.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        tv2.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        tv3.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
 
         // 序号
         tv1.setText((tableLayout.getChildCount()) +"");
@@ -901,8 +940,10 @@ public class ProductLeftActivity extends BaseActivity {
                 bottomDouble = StringUtils.convertToDouble(bottomStr, 0.0);
             }
             // 测试值不在范围内，显示红色
-            if (deteDouble > heightDouble || deteDouble < bottomDouble) {
-                tv3.setTextColor(Color.RED);
+            if (deteDouble > heightDouble) {
+                tv3.setTextColor(getResources().getColor(R.color.leftHeightColor));
+            } else if (deteDouble < bottomDouble) {
+                tv3.setTextColor(getResources().getColor(R.color.leftBottomColor));
             }
         }
         row.addView(tv3);
@@ -1018,8 +1059,10 @@ public class ProductLeftActivity extends BaseActivity {
                     bottomDouble = StringUtils.convertToDouble(bottomStr, 0.0);
                 }
                 // 测试值不在范围内，显示红色
-                if (deteDouble > heightDouble || deteDouble < bottomDouble) {
-                    tv3.setTextColor(Color.RED);
+                if (deteDouble > heightDouble) {
+                    tv3.setTextColor(getResources().getColor(R.color.leftHeightColor));
+                } else if (deteDouble < bottomDouble) {
+                    tv3.setTextColor(getResources().getColor(R.color.leftBottomColor));
                 }
             }
             row.addView(tv3);

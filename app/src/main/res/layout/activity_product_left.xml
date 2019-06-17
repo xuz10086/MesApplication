@@ -52,17 +52,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#d40b0b"
+                android:textColor="@color/leftBottomColor"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:text="@string/top_dete"/>
+                android:text="@string/bottom_dete"/>
             <TextView
-                android:id="@+id/left_height"
+                android:id="@+id/left_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:textSize="15sp"
-                android:textColor="#d40b0b"/>
+                android:textColor="@color/leftBottomColor"/>
             <TextView
                 android:id="@+id/left_unit"
                 android:layout_width="wrap_content"
@@ -71,29 +71,29 @@
                 android:text="@string/center_dete"
                 android:textStyle="bold"
                 android:textSize="15sp"
-                android:textColor="#0a0909"/>
+                android:textColor="@color/leftCenterColor"/>
             <TextView
                 android:id="@+id/left_center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:textSize="15sp"
-                android:textColor="#0a0909"/>
+                android:textColor="@color/leftCenterColor"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#30d40b"
+                android:textColor="@color/leftHeightColor"
                 android:layout_marginLeft="25dp"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:text="@string/bottom_dete"/>
+                android:text="@string/top_dete"/>
 
             <TextView
-                android:id="@+id/left_bottom"
+                android:id="@+id/left_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#30d40b"
+                android:textColor="@color/leftHeightColor"
                 android:textSize="15sp"
                 android:layout_marginLeft="5dp" />
         </LinearLayout>
